@@ -1,42 +1,57 @@
 {
-  "name": "denome",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.14.130",
-    "@types/recompose": "^0.30.6",
-    "@types/redux": "^3.6.0",
-    "@types/styled-components": "^4.1.15",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
-    "@typescript-eslint/parser": "^1.9.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-react": "^7.13.0",
-    "lodash": "^4.17.11",
-    "react": "16.8.3",
-    "react-native": "0.59.8",
-    "recompose": "^0.30.0",
-    "redux": "^4.0.1",
-    "styled-components": "^4.2.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/runtime": "^7.4.5",
-    "@types/jest": "^24.0.13",
-    "@types/react": "^16.8.18",
-    "@types/react-native": "^0.57.59",
-    "@types/react-test-renderer": "^16.8.1",
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0",
-    "metro-react-native-babel-preset": "^0.54.1",
-    "prettier": "^1.17.1",
-    "react-test-renderer": "16.8.3",
-    "typescript": "^3.4.5"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
+    "name": "denome",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@types/lodash": "^4.14.130",
+        "@types/react-redux": "^7.0.9",
+        "@types/react-router-native": "^4.2.4",
+        "@types/recompose": "^0.30.6",
+        "@types/redux": "^3.6.0",
+        "@types/redux-logger": "^3.0.7",
+        "@types/reselect": "^2.2.0",
+        "@types/styled-components": "^4.1.15",
+        "@typescript-eslint/eslint-plugin": "^1.9.0",
+        "@typescript-eslint/parser": "^1.9.0",
+        "connected-react-router": "^6.4.0",
+        "eslint": "^5.16.0",
+        "eslint-plugin-react": "^7.13.0",
+        "i": "^0.3.6",
+        "lodash": "^4.17.11",
+        "npm": "^6.9.0",
+        "react": "16.8.3",
+        "react-native": "0.59.8",
+        "react-native-modal": "^11.0.1",
+        "react-redux": "^7.0.3",
+        "react-router-native": "^5.0.0",
+        "recompose": "^0.30.0",
+        "redux": "^4.0.1",
+        "redux-logger": "^3.0.6",
+        "redux-observable": "^1.1.0",
+        "reselect": "^4.0.0",
+        "styled-components": "^4.2.0",
+        "typesafe-actions": "^4.4.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.4.5",
+        "@babel/runtime": "^7.4.5",
+        "@types/jest": "^24.0.13",
+        "@types/react": "^16.8.18",
+        "@types/react-native": "^0.57.59",
+        "@types/react-test-renderer": "^16.8.1",
+        "babel-jest": "^24.8.0",
+        "eslint-plugin-react-hooks": "^1.6.0",
+        "jest": "^24.8.0",
+        "metro-react-native-babel-preset": "^0.54.1",
+        "prettier": "^1.17.1",
+        "react-test-renderer": "16.8.3",
+        "typescript": "^3.4.5"
+    },
+    "jest": {
+        "preset": "react-native"
+    }
 }
