@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { Route } from "react-router-native";
 import { compose, pure } from "recompose";
 import { GameConfiguration } from "./src/pages/GameConfiguration";
-import { history, store } from "./src/store";
+import { history, configureStore } from "./src/store";
 import { Play } from "./src/pages/Play";
 
 const styles = StyleSheet.create({
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 export const AppBase: React.FC<{}> = () => {
   return (
-    <Provider store={store}>
+    <Provider store={configureStore()}>
       <ConnectedRouter history={history}>
         <View style={styles.container}>
           <Route exact path="/" component={GameConfiguration} />

@@ -1,38 +1,30 @@
 import { push } from "connected-react-router";
 import * as React from "react";
-import { connect } from "react-redux";
 import { Text } from "react-native";
+import { connect } from "react-redux";
 import { compose, pure } from "recompose";
-import { createStructuredSelector } from "reselect";
-import { AppState } from "../store";
-import { ConfigurationActions } from "../store/configuration/action";
-import {
-  SelectConfigurationNumberOfTerms,
-  SelectConfigurationSigns,
-} from "../store/configuration/selector";
+import { PlayActions } from "../store/play/action";
 
 interface PassProps {}
 
-const mapStateToProps = createStructuredSelector<AppState, PassProps>({
-  signs: SelectConfigurationSigns,
-  numberOfTerms: SelectConfigurationNumberOfTerms,
-});
-
 const actions = {
-  setSigns: ConfigurationActions.setSigns,
-  setNumberOfTerms: ConfigurationActions.setNumberOfTerms,
+  fetchFormula: PlayActions.fetchFormula.request,
   push,
 };
 
 type Props = PassProps & typeof actions;
 
 export const PlayBase: React.FC<Props> = props => {
+  React.useEffect(() => {
+    console.log("pppp");
+    props.fetchFormula({});
+  }, []);
   return <Text>Test</Text>;
 };
 
 export const Play = compose<Props, {}>(
   connect(
-    mapStateToProps,
+    undefined,
     actions
   ),
   pure

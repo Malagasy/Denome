@@ -1,29 +1,39 @@
-import { connectRouter, routerMiddleware } from "connected-react-router";
+import { Services } from "./../services/index";
+import { routerMiddleware } from "connected-react-router";
 import { createMemoryHistory } from "history";
-import {
-  applyMiddleware,
-  combineReducers,
-  compose,
-  createStore as createStoreRedux,
-} from "redux";
-import { configurationReducer } from "./configuration/reducer";
+import { applyMiddleware, compose, createStore } from "redux";
 import { createLogger } from "redux-logger";
+import { createEpicMiddleware } from "redux-observable";
+import { rootEpic } from "./epic";
+import { PlayAction } from "./play/action";
+import { createRootReducer } from "./reducer";
+import { services } from "../services";
 
-const createRootReducer = (history: ReturnType<typeof createMemoryHistory>) =>
-  combineReducers({
-    configuration: configurationReducer,
-    router: connectRouter(history),
-  });
+export type RootAction = PlayAction;
+export type RootState = ReturnType<ReturnType<typeof createRootReducer>>;
 
 export const history = createMemoryHistory();
 
-const createStore = (history: ReturnType<typeof createMemoryHistory>) =>
-  createStoreRedux(
+export const configureStore = () => {
+  const epicMiddleware = createEpicMiddleware<
+    RootAction,
+    RootAction,
+    RootState,
+    Services
+  >({
+    dependencies: services,
+  });
+  const store = createStore(
     createRootReducer(history),
     undefined,
-    compose(applyMiddleware(routerMiddleware(history), createLogger()))
+    compose(
+      applyMiddleware(routerMiddleware(history), createLogger(), epicMiddleware)
+    )
   );
 
-export const store = createStore(history);
+  epicMiddleware.run(rootEpic);
+
+  return store;
+};
 
 export type AppState = ReturnType<ReturnType<typeof createRootReducer>>;
