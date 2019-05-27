@@ -1,9 +1,9 @@
 import { Epic } from "redux-observable";
 import { from, of } from "rxjs";
 import { catchError, filter, mergeMap } from "rxjs/operators";
-import { Action, ActionCreator, isActionOf } from "typesafe-actions";
+import { isActionOf, TypeConstant } from "typesafe-actions";
+import { AsyncActionCreator } from "typesafe-actions/dist/create-async-action";
 import { RootAction } from "../store";
-import { PlayActions } from "../store/play/action";
 import { Services } from "./../services/index";
 
 interface EpicCallback<S, F> {
@@ -11,10 +11,17 @@ interface EpicCallback<S, F> {
   failure?: (error: F) => null | undefined | RootAction | RootAction[];
 }
 
-export const createSimpleEpic = <V extends string, RootState, S, F>(
-  actionToObserve: ActionCreator<V>,
+export const createSimpleEpic = <
+  T1 extends [TypeConstant, any],
+  T2 extends [TypeConstant, any],
+  T3 extends [TypeConstant, any],
+  RootState,
+  S,
+  F
+>(
+  actionsToObserve: AsyncActionCreator<T1, T2, T3>,
   middlewareTask: (
-    observedAction: Action<V>,
+    action: typeof actionsToObserve.request,
     state$: RootState,
     dependencies: Services
   ) => Promise<S>,
@@ -22,9 +29,15 @@ export const createSimpleEpic = <V extends string, RootState, S, F>(
 ): Epic<RootAction, RootAction, RootState, Services> => {
   return (action$, state$, dependencies) =>
     action$.pipe(
-      filter(isActionOf(actionToObserve)),
-      mergeMap(observedAction =>
-        from(middlewareTask(observedAction, state$.value, dependencies)).pipe(
+      filter(isActionOf(actionsToObserve.request)),
+      mergeMap(() =>
+        from(
+          middlewareTask(
+            actionsToObserve.request as any,
+            state$.value,
+            dependencies
+          )
+        ).pipe(
           mergeMap(result => {
             let successActions: RootAction[] = [];
             const cbResult =
@@ -36,7 +49,10 @@ export const createSimpleEpic = <V extends string, RootState, S, F>(
                 successActions = [cbResult];
               }
             }
-            return of(PlayActions.fetchFormula.success({}), ...successActions);
+            return of(
+              actionsToObserve.success(result) as any,
+              ...successActions
+            );
           }),
           catchError(error => {
             let failureActions: RootAction[] = [];
@@ -49,7 +65,10 @@ export const createSimpleEpic = <V extends string, RootState, S, F>(
                 failureActions = [cbResult];
               }
             }
-            return of(PlayActions.fetchFormula.failure({}), ...failureActions);
+            return of(
+              actionsToObserve.failure(error) as any,
+              ...failureActions
+            );
           })
         )
       )

@@ -2,13 +2,12 @@ import { createSimpleEpic } from "./../../utils/epic";
 import { PlayActions } from "./action";
 
 export const fetchFormulaEpic = createSimpleEpic(
-  PlayActions.fetchFormula.request,
+  PlayActions.fetchFormula,
   async (action, state$, { Api }) => {
     return await Api.fetchFormula();
   },
   {
-    success: result => {
-      console.log(result);
+    success: () => {
       return null;
     },
   }
